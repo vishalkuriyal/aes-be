@@ -1,11 +1,18 @@
 export type JobType = {
-  applicationEmail: string;
+  jobPosition: string;
+  jobType: "Full Time" | "Part Time" | "Freelance" | "Internship";
+  applicationEmailOrUrl: string;
   location: string;
   companyWebsite: string;
   companyName: string;
-  companyLinkedInLink?: string;
-  companyTagline?: string;
+  companyLinkedIn: string;
+  companyTagline: string;
   listingExpiryDate: Date;
-  openings: boolean;
-  companyImageUrl?: string;
+  acceptingOpenings: boolean;
+  companyImage: File | null;
+  salaryRange: {
+    min: number;
+    max: number;
+  }
+  currency: "INR" | "USD" | "EUR" | "GBP";
 };
