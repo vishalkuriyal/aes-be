@@ -9,4 +9,5 @@ export const jobsRouter = express.Router();
 
 jobsRouter.get('/get', handleGetJobs);
 jobsRouter.post('/create', isAuth, upload.single('companyImage'), handleCreateJobs);
+jobsRouter.delete('/delete', isAuth, handleGetJobs);
 // jobsRouter.post('/upload', upload.single('companyImage'), handleUploadJob);
