@@ -27,7 +27,7 @@ export const uploadFileToDrive = async (filePath: string, fileName: string) => {
   const file = await drive.files.create({
     requestBody: fileMetadata,
     media: media,
-    fields: 'id',
+    fields: 'id, webViewLink',
   });
 
   const fileId = file.data.id as string;
@@ -41,7 +41,7 @@ export const uploadFileToDrive = async (filePath: string, fileName: string) => {
     },
   });
 
-  const fileUrl = `https://drive.google.com/uc?id=${fileId}`;
+  const fileUrl = `https://drive.google.com/thumbnail?id=${fileId}`;
   return fileUrl;
 };
 
