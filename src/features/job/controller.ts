@@ -83,9 +83,23 @@ export const handleCreateJobs = async (req: Request<{}, {}, JobType>, res: Respo
 
 export const handleDeleteJob = async (req: Request, res: Response) => {
   try {
-    const { id } = req.body;
-    await Job.findByIdAndDelete(id);
+    const id = req.params.jobId;
+    console.log(id)
+    await Job.findByIdAndDelete({_id: id});
+    console.log('Job deleted successfully!');
     res.status(200).json({ message: 'Job deleted successfully!' });
+  } catch (error) {
+    res.status(500).json({ message: 'An unexpected error occurred' });
+  }
+}
+
+export const handleJobUpdate = async (req: Request, res: Response) => {
+  try {
+    const jobId = req.params.jobId;
+    const job = req.body;
+
+    await Job.findByIdAndUpdate({ _id: jobId }, job);
+    res.status(200).json({ message: 'Job updated successfully!' });
   } catch (error) {
     res.status(500).json({ message: 'An unexpected error occurred' });
   }
