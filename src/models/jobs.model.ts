@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { JobType } from '~/types/types';
+import { JobType } from '../types/types';
 
 const jobSchema = new Schema<JobType>({
   applicationEmailOrUrl: { type: String, required: true },

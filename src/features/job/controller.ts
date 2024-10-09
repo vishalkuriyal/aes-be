@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { Job } from "~/models/jobs.model";
+import { Job } from "../../models/jobs.model";
 import fs from 'fs';
 import dotenv from 'dotenv'
 import { uploadFileToDrive } from "./actions";
-import { JobType } from "~/types/types";
+import { JobType } from "../../types/types";
 dotenv.config()
 
 // Google Drive API setup

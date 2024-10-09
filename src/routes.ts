@@ -1,5 +1,5 @@
 import express from 'express';
-import { pingServerRouter, authRouter, jobsRouter } from '~/features';
+import { pingServerRouter, authRouter, jobsRouter } from './features';
 
 export const router = express.Router();
 
