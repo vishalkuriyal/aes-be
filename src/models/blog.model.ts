@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { BlogType } from "src/types/types";
+import { BlogType } from "../types/types";
 
 const blogSchema = new Schema<BlogType>({
   title: { type: String, required: true },

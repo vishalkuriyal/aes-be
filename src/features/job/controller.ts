@@ -3,7 +3,7 @@ import { Job } from "../../models/jobs.model";
 import fs from 'fs';
 import dotenv from 'dotenv'
 import { JobType } from "../../types/types";
-import { deleteFileFromDrive, uploadFileToDrive } from "src/utils/drive";
+import { deleteFileFromDrive, uploadFileToDrive } from "../../utils/drive";
 dotenv.config()
 
 // Google Drive API setup

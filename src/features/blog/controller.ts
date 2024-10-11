@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Blog } from "src/models/blog.model";
-import { deleteFileFromDrive, uploadFileToDrive } from "src/utils/drive";
+import { Blog } from "../../models/blog.model";
+import { deleteFileFromDrive, uploadFileToDrive } from "../../utils/drive";
 
 export const handleGetBlogs = async (req: Request, res: Response) => {
   try {
