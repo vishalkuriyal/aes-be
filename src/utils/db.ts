@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 // Connection URI
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/aes-be';
+const uri = process.env.MONGODB_URI as string;
 
 // Connection function
 export const connectToDatabase = async (): Promise<void> => {
