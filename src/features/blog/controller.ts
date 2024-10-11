@@ -51,6 +51,7 @@ export const handleUpdateBlog = async (req: Request, res: Response) => {
     const blog = req.body;
 
     blog.image = blogImageUrl;
+    blog.date = new Date();
 
     await Blog.findByIdAndUpdate({ _id: blogId }, blog);
     res.status(200).json({ message: 'Blog updated successfully!' });
@@ -61,6 +62,8 @@ export const handleUpdateBlog = async (req: Request, res: Response) => {
 
 export const handleCreateBlogs = async (req: Request, res: Response) => {
 
+  console.log(req.body)
+
   // Ensure the image file is uploaded
   if (!req.file) {
     res.status(400).json({ message: 'Company image is required.' });
@@ -68,7 +71,9 @@ export const handleCreateBlogs = async (req: Request, res: Response) => {
   }
 
   try {
-    const { title, description, subDescription, author, tags, date, content } = req.body;
+    const { title, description, subDescription, author, tags, content } = req.body;
+
+    const date = new Date();
 
     // Upload the company image to Google Drive
     const filePath = req.file.path; // Path of the uploaded file

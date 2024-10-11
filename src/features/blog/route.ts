@@ -8,7 +8,7 @@ const upload = multer({ dest: 'uploads/' }); // Directory for uploaded files
 export const blogsRouter = express.Router();
 
 blogsRouter.get('/get', handleGetBlogs);
-blogsRouter.post('/create', isAuth, upload.single('companyImage'), handleCreateBlogs);
-blogsRouter.post('/update/:blogId', isAuth, upload.single('companyImage'), handleUpdateBlog);
+blogsRouter.post('/create', isAuth, upload.single('image'), handleCreateBlogs);
+blogsRouter.post('/update/:blogId', isAuth, upload.single('image'), handleUpdateBlog);
 blogsRouter.delete('/delete/:blogId', isAuth, handleDeleteBlog);
 // jobsRouter.post('/upload', upload.single('companyImage'), handleUploadJob);
