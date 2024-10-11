@@ -105,7 +105,7 @@ export const handleJobUpdate = async (req: Request, res: Response) => {
     // find old job
     const oldJob = await Job.findById({ _id: jobId });
 
-    const imageUrl = oldJob?.companyName as string;
+    const imageUrl = oldJob?.companyImage as string;
 
     const imageFileId = imageUrl.split("=")[1];
 
