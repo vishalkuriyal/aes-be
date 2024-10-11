@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import { Job } from "../../models/jobs.model";
 import fs from 'fs';
 import dotenv from 'dotenv'
-import { uploadFileToDrive } from "./actions";
 import { JobType } from "../../types/types";
+import { deleteFileFromDrive, uploadFileToDrive } from "src/utils/drive";
 dotenv.config()
 
 // Google Drive API setup
@@ -84,8 +84,7 @@ export const handleCreateJobs = async (req: Request<{}, {}, JobType>, res: Respo
 export const handleDeleteJob = async (req: Request, res: Response) => {
   try {
     const id = req.params.jobId;
-    console.log(id)
-    await Job.findByIdAndDelete({_id: id});
+    await Job.findByIdAndDelete({ _id: id });
     console.log('Job deleted successfully!');
     res.status(200).json({ message: 'Job deleted successfully!' });
   } catch (error) {
@@ -94,9 +93,33 @@ export const handleDeleteJob = async (req: Request, res: Response) => {
 }
 
 export const handleJobUpdate = async (req: Request, res: Response) => {
+
+  if (!req.file) {
+    res.status(400).json({ message: 'Company image is required.' });
+    return
+  }
+
   try {
     const jobId = req.params.jobId;
+
+    // find old job
+    const oldJob = await Job.findById({ _id: jobId });
+
+    const imageUrl = oldJob?.companyName as string;
+
+    const imageFileId = imageUrl.split("=")[1];
+
+    // Delete old image from Google Drive
+    await deleteFileFromDrive(imageFileId);
+
+    // Upload the company image to Google Drive
+    const filePath = req.file.path; // Path of the uploaded file
+    const fileName = req.file.originalname; // Original file name
+    const companyImageUrl = await uploadFileToDrive(filePath, fileName);
+
     const job = req.body;
+
+    job.companyImage = companyImageUrl;
 
     await Job.findByIdAndUpdate({ _id: jobId }, job);
     res.status(200).json({ message: 'Job updated successfully!' });
