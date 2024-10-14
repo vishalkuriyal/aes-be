@@ -88,6 +88,11 @@ export const loginUser = async (req: Request, res: Response) => {
     // Set user session
     req.session.userId = (user._id as string).toString();
 
+    res.cookie('qid', req.session.id, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
     // Send success response
     res.json({
       loggedIn: true,
