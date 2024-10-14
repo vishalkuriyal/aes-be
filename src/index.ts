@@ -72,7 +72,7 @@ app.use(
   })
 );
 
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = ['http://localhost:3000', "https://aes-website.vercel.app", "aes-website.vercel.app", "https://aes-website.vercel.app/"];
 app.use(
   cors({
     credentials: true,
