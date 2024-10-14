@@ -63,6 +63,7 @@ app.get('/oauth2callback', async (req, res) => {
   }
 });
 
+app.set('trust proxy', 1)
 app.use(
   session({
     secret: process.env.SECRET as string,
@@ -70,7 +71,7 @@ app.use(
     saveUninitialized: true,
     store: store,
     cookie: {
-      sameSite: "strict",
+      secure:true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     }
   })
