@@ -4,13 +4,43 @@ import { deleteFileFromDrive, uploadFileToDrive } from "../../utils/drive";
 
 export const handleGetBlogs = async (req: Request, res: Response) => {
   try {
-    const blogs = await Blog.find();
-    res.status(200).json(blogs);
-  }
-  catch (error) {
+    // Get limit and page from query parameters, and set defaults if not provided
+    const limit = parseInt(req.query.limit as string) || 9; // Default limit to 9 if not provided
+    const page = parseInt(req.query.page as string) || 1;   // Default page to 1 if not provided
+
+    // Calculate how many documents to skip for pagination
+    const skip = (page - 1) * limit;
+
+    // Fetch blogs with pagination
+    const blogs = await Blog.find().skip(skip).limit(limit);
+
+    // Get the total number of blogs for calculating total pages
+    const totalBlogs = await Blog.countDocuments();
+
+    // Calculate total number of pages
+    const totalPages = Math.ceil(totalBlogs / limit);
+
+    console.log({ blogs, currentPage: page, totalPages, totalBlogs });
+    res.status(200).json({
+      blogs,
+      currentPage: page,
+      totalPages,
+      totalBlogs,
+    });
+  } catch (error) {
     res.status(500).json({ message: 'An unexpected error occurred' });
   }
 };
+
+export const handleGetSingleBlogById = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const blog = await Blog.findById({ _id: id });
+    res.status(200).json(blog);
+  } catch (error) {
+    res.status(500).json({ message: 'An unexpected error occurred' });
+  }
+}
 
 export const handleDeleteBlog = async (req: Request, res: Response) => {
   try {
