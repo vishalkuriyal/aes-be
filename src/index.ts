@@ -53,9 +53,6 @@ app.get('/oauth2callback', async (req, res) => {
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
 
-    // Store tokens in a session or database if needed
-    console.log('Access Token:', tokens);
-
     res.send('Authorization successful!');
   } catch (error) {
     console.error('Error during token exchange:', error);
@@ -63,20 +60,35 @@ app.get('/oauth2callback', async (req, res) => {
   }
 });
 
-app.set('trust proxy', 1)
-app.use(
-  session({
-    secret: process.env.SECRET as string,
-    resave: false,
-    saveUninitialized: true,
-    store: store,
-    cookie: {
-      secure: true,
-      sameSite: "none",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    }
-  })
-);
+if (process.env.PRODUCTION === "false") {
+  app.set('trust proxy', 1)
+  app.use(
+    session({
+      secret: process.env.SECRET as string,
+      resave: false,
+      saveUninitialized: true,
+      store: store,
+    })
+  );
+
+} else {
+
+  app.set('trust proxy', 1)
+  app.use(
+    session({
+      secret: process.env.SECRET as string,
+      resave: false,
+      saveUninitialized: true,
+      store: store,
+      cookie: {
+        secure: true,
+        sameSite: "none",
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+      }
+    })
+  );
+}
+
 
 const allowedOrigins = ['http://localhost:3000', "https://aes-website.vercel.app", "aes-website.vercel.app", "https://aes-website.vercel.app/"];
 app.use(

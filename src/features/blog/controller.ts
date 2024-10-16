@@ -20,7 +20,6 @@ export const handleGetBlogs = async (req: Request, res: Response) => {
     // Calculate total number of pages
     const totalPages = Math.ceil(totalBlogs / limit);
 
-    console.log({ blogs, currentPage: page, totalPages, totalBlogs });
     res.status(200).json({
       blogs,
       currentPage: page,
@@ -91,8 +90,6 @@ export const handleUpdateBlog = async (req: Request, res: Response) => {
 }
 
 export const handleCreateBlogs = async (req: Request, res: Response) => {
-
-  console.log(req.body)
 
   // Ensure the image file is uploaded
   if (!req.file) {
