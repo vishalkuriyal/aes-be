@@ -27,3 +27,15 @@ export type BlogType = {
   date: Date;
   tags: [String];
 }
+
+export type FormDataType = {
+  firstName: string;
+  lastName?: string;
+  company: string;
+  jobTitle?: string;
+  email: string;
+  country?: string;
+  message: string;
+  phone?: string;
+  from: "home" | "contact" | "job-board";
+};
