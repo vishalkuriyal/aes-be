@@ -114,7 +114,6 @@ const PORT = process.env.PORT || 3030;
 
 app.use('/api', router);
 
-
 const startServer = async () => {
   try {
     await connectToDatabase();

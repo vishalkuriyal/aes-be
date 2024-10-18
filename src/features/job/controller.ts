@@ -38,7 +38,8 @@ export const handleCreateJobs = async (req: Request<{}, {}, JobType>, res: Respo
       currency,
       jobPosition,
       salaryRange,
-      applicationEmailOrUrl
+      applicationEmailOrUrl,
+      content,
     } = req.body;
 
     const { min, max } = salaryRange;
@@ -66,6 +67,7 @@ export const handleCreateJobs = async (req: Request<{}, {}, JobType>, res: Respo
       companyTagline,
       listingExpiryDate,
       acceptingOpenings,
+      content
     });
 
     // Save the job to MongoDB
@@ -123,6 +125,17 @@ export const handleJobUpdate = async (req: Request, res: Response) => {
 
     await Job.findByIdAndUpdate({ _id: jobId }, job);
     res.status(200).json({ message: 'Job updated successfully!' });
+  } catch (error) {
+    res.status(500).json({ message: 'An unexpected error occurred' });
+  }
+}
+
+
+export const handleGetSingleJob = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const job = await Job.findById({ _id: id });
+    res.status(200).json(job);
   } catch (error) {
     res.status(500).json({ message: 'An unexpected error occurred' });
   }
