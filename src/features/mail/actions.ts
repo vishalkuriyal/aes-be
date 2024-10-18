@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 type SendMailType = {
   text: string;
   html: string;
+  email: string;
   attachments: { filename: string; path: string; }[]
 }
 
@@ -21,14 +22,15 @@ export const sendMail = async (data: SendMailType) => {
     });
     const info = await transporter.sendMail({
       from: `piyush@techqilla.com`,
-      to: "ayushsemwal648@gmail.com",
+      to: "piyush@techqilla.com",
       subject: "Contact Form dlwajdalkjawjaw",
       text: data.text,
       html: data.html
     })
-    return info
+    return { data: info, status: true }
   } catch (error) {
-    console.log(error);
+    console.log(error)
+    return { data: null, status: false }
   }
 }
 
@@ -62,6 +64,7 @@ export const getTemplate = (form: FormDataType, filePath: string): SendMailType 
   return {
     text,
     html,
+    email: form.email,
     attachments
   }
 }

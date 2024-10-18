@@ -17,7 +17,8 @@ const jobSchema = new Schema<JobType>({
   salaryRange: {
     min: { type: Number, required: true },
     max: { type: Number, required: true },
-  }
+  },
+  content: { type: String },
 });
 
 export const Job = mongoose.model<JobType>('Job', jobSchema);

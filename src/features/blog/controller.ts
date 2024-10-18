@@ -60,7 +60,7 @@ export const handleUpdateBlog = async (req: Request, res: Response) => {
   }
 
   try {
-    const blogId = req.params.jobId;
+    const blogId = req.params.blogId;
 
     // find old job
     const oldJob = await Blog.findById({ _id: blogId });
@@ -85,6 +85,7 @@ export const handleUpdateBlog = async (req: Request, res: Response) => {
     await Blog.findByIdAndUpdate({ _id: blogId }, blog);
     res.status(200).json({ message: 'Blog updated successfully!' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'An unexpected error occurred' });
   }
 }

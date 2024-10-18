@@ -10,6 +10,7 @@ export type JobType = {
   listingExpiryDate: Date;
   acceptingOpenings: boolean;
   companyImage: string;
+  content: string;
   salaryRange: {
     min: number;
     max: number;
