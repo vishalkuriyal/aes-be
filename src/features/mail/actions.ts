@@ -46,9 +46,14 @@ export const getTemplate = (form: FormDataType, filePath: string): SendMailType 
       html = `<p>From: ${form.firstName} ${form.lastName} (${form.email})</p><p>${form.message}</p>`;
       break;
 
-    case "contact":
+    case "contact-home-page":
       text = `From: ${form.firstName} (${form.email})\n\n${form.message}`;
       html = `<p>From: ${form.firstName} (${form.email})</p><p>${form.message}</p>`;
+      break;
+
+    case "contact-us-page":
+      text = `From: ${form.firstName} (${form.email})\n\n How did you find us: ${form.howDidYouFindUs}`;
+      html = `<p>From: ${form.firstName} (${form.email})</p><p>How did you find us: ${form.howDidYouFindUs}</p>`;
       break;
 
     default:

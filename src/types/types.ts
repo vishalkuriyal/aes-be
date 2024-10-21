@@ -38,5 +38,6 @@ export type FormDataType = {
   country?: string;
   message: string;
   phone?: string;
-  from: "home" | "contact" | "job-board";
+  howDidYouFindUs?: string;
+  from: "home" | "contact-us-page" | "job-board" | 'contact-home-page';
 };

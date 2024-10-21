@@ -1,28 +1,31 @@
-import { Request, Response } from "express";
-import { Job } from "../../models/jobs.model";
+import { Request, Response } from 'express';
+import { Job } from '../../models/jobs.model';
 import fs from 'fs';
-import dotenv from 'dotenv'
-import { JobType } from "../../types/types";
-import { deleteFileFromDrive, uploadFileToDrive } from "../../utils/drive";
-dotenv.config()
+import dotenv from 'dotenv';
+import { JobType } from '../../types/types';
+import { deleteFileFromDrive, uploadFileToDrive } from '../../utils/drive';
+dotenv.config();
 
 // Google Drive API setup
 export const handleGetJobs = async (req: Request, res: Response) => {
   try {
     const jobs = await Job.find();
+    console.log(jobs);
     res.status(200).json(jobs);
-  }
-  catch (error) {
+  } catch (error) {
     res.status(500).json({ message: 'An unexpected error occurred' });
   }
 };
 
-export const handleCreateJobs = async (req: Request<{}, {}, JobType>, res: Response) => {
+export const handleCreateJobs = async (
+  req: Request<{}, {}, JobType>,
+  res: Response
+) => {
   try {
     // Ensure the image file is uploaded
     if (!req.file) {
       res.status(400).json({ message: 'Company image is required.' });
-      return
+      return;
     }
 
     // Extract job details from the request body
@@ -57,7 +60,7 @@ export const handleCreateJobs = async (req: Request<{}, {}, JobType>, res: Respo
       jobType,
       salaryRange: {
         min,
-        max
+        max,
       },
       companyImage: companyImageUrl,
       location,
@@ -67,7 +70,7 @@ export const handleCreateJobs = async (req: Request<{}, {}, JobType>, res: Respo
       companyTagline,
       listingExpiryDate,
       acceptingOpenings,
-      content
+      content,
     });
 
     // Save the job to MongoDB
@@ -79,9 +82,11 @@ export const handleCreateJobs = async (req: Request<{}, {}, JobType>, res: Respo
     res.status(201).json({ message: 'Job created successfully!', job: newJob });
   } catch (error: any) {
     console.error('Error creating job:', error);
-    res.status(500).json({ message: 'An unexpected error occurred.', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'An unexpected error occurred.', error: error.message });
   }
-}
+};
 
 export const handleDeleteJob = async (req: Request, res: Response) => {
   try {
@@ -92,13 +97,12 @@ export const handleDeleteJob = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ message: 'An unexpected error occurred' });
   }
-}
+};
 
 export const handleJobUpdate = async (req: Request, res: Response) => {
-
   if (!req.file) {
     res.status(400).json({ message: 'Company image is required.' });
-    return
+    return;
   }
 
   try {
@@ -109,7 +113,7 @@ export const handleJobUpdate = async (req: Request, res: Response) => {
 
     const imageUrl = oldJob?.companyImage as string;
 
-    const imageFileId = imageUrl.split("=")[1];
+    const imageFileId = imageUrl.split('=')[1];
 
     // Delete old image from Google Drive
     await deleteFileFromDrive(imageFileId);
@@ -128,8 +132,7 @@ export const handleJobUpdate = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ message: 'An unexpected error occurred' });
   }
-}
-
+};
 
 export const handleGetSingleJob = async (req: Request, res: Response) => {
   try {
@@ -139,4 +142,4 @@ export const handleGetSingleJob = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ message: 'An unexpected error occurred' });
   }
-}
+};
