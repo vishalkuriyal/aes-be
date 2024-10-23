@@ -68,8 +68,8 @@ export const getTemplate = (
 
     default:
       subject = 'Contact Page';
-      text = `From: ${form.firstName} (${form.email})\n\n${form.message}`;
-      html = `<p>From: ${form.firstName} (${form.email})</p><p>${form.message}</p>`;
+      text = `From: ${form.firstName} (${form.email})\n\n The resume has been attached`;
+      html = `<p>From: ${form.firstName} (${form.email})</p><p>The resume has been attached</p>`;
       attachments.push({
         filename: 'resume.pdf',
         path: filePath,
