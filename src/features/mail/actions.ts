@@ -22,8 +22,8 @@ export const sendMail = async (data: SendMailType) => {
       logger: true,
     });
     const info = await transporter.sendMail({
-      from: `piyush@techqilla.com`,
-      to: 'piyush@techqilla.com',
+      from: `info@aesrecruitment.com`,
+      to: 'info@aesrecruitment.com',
       subject: data.subject,
       text: data.text,
       html: data.html,
