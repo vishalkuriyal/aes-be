@@ -90,7 +90,7 @@ if (process.env.PRODUCTION === "false") {
 }
 
 
-const allowedOrigins = ['http://localhost:3000', "https://aes-website.vercel.app", "aes-website.vercel.app", "https://aes-website.vercel.app/"];
+const allowedOrigins = ['http://localhost:3000', "https://aes-website.vercel.app", "aes-website.vercel.app", "https://aes-website.vercel.app/", "https://aesrecruitment.com", "https://www.aesrecruitment.com", "http://aesrecruitment.com"];
 app.use(
   cors({
     credentials: true,
