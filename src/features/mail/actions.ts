@@ -49,27 +49,59 @@ export const getTemplate = (
 
   switch (formType) {
     case 'home':
-      subject = 'Home Page';
-      text = `From: ${form.firstName} ${form.lastName} (${form.email})\n\n${form.message}`;
-      html = `<p>From: ${form.firstName} ${form.lastName} (${form.email})</p><p>${form.message}</p>`;
+      subject = 'Home Page Inquiry';
+      text = `Hello,\n\nYou have received a new inquiry from the Home Page.\n\nFrom: ${form.firstName} ${form.lastName} (${form.email})\nPhone: ${form.phoneNumber}\n\nMessage:\n${form.message}\n\nFor Company: ${form.company}\n\nFor Job Title of: ${form.jobTitle}\n\nIn Country: ${form.country}\n\nSubscribed: ${form.subscribe ? 'Yes' : 'No'}\n\nBest regards,\nYour Team`;
+      html = `
+        <h2>Hello,</h2>
+        <p>You have received a new inquiry from the Home Page.</p>
+        <p><strong>From:</strong> ${form.firstName} ${form.lastName} (<a href="mailto:${form.email}">${form.email}</a>)</p>
+        <p><strong>Phone:</strong> ${form.phoneNumber}</p>
+        <p><strong>For Company:</strong> ${form.company}</p>
+        <p><strong>For Job Title of:</strong> ${form.jobTitle}</p>
+        <p><strong>In Country:</strong> ${form.country}</p>
+        <p><strong>Subscribed:</strong> ${form.subscribe ? 'Yes' : 'No'}</p>
+        <p><strong>Message:</strong></p>
+        <p>${form.message}</p>
+        <p>Best regards,<br>Your Team</p>
+      `;
       break;
 
     case 'contact-home-page':
-      subject = 'Contact Page';
-      text = `From: ${form.firstName} (${form.email})\n\n${form.message}`;
-      html = `<p>From: ${form.firstName} (${form.email})</p><p>${form.message}</p>`;
+      subject = 'Contact Page Inquiry';
+      text = `Hello,\n\nYou have received a new message from the Contact Page.\n\nFrom: ${form.firstName} (${form.email})\n\nFor Company: ${form.company}\n\nMessage:\n${form.message}\n\nBest regards,\nYour Team`;
+      html = `
+        <h2>Hello,</h2>
+        <p>You have received a new message from the Contact Page.</p>
+        <p><strong>From:</strong> ${form.firstName} (<a href="mailto:${form.email}">${form.email}</a>)</p>
+        <p><strong>For Company:</strong> ${form.company}</p>
+        <p><strong>Message:</strong></p>
+        <p>${form.message}</p>
+        <p>Best regards,<br>Your Team</p>
+      `;
       break;
 
     case 'contact-us-page':
-      subject = 'Contact Page';
-      text = `From: ${form.firstName} (${form.email})\n\n How did you find us: ${form.howDidYouFindUs}`;
-      html = `<p>From: ${form.firstName} (${form.email})</p><p>How did you find us: ${form.howDidYouFindUs}</p>`;
+      subject = 'Contact Us Page Inquiry';
+      text = `Hello,\n\nYou have received a new message from the Contact Us Page.\n\nFrom: ${form.firstName} (${form.email})\n\nHow did you find us: ${form.howDidYouFindUs}\n\nBest regards,\nYour Team`;
+      html = `
+        <h2>Hello,</h2>
+        <p>You have received a new message from the Contact Us Page.</p>
+        <p><strong>From:</strong> ${form.firstName} (<a href="mailto:${form.email}">${form.email}</a>)</p>
+        <p><strong>How did you find us:</strong> ${form.howDidYouFindUs}</p>
+        <p>Best regards,<br>Your Team</p>
+      `;
       break;
 
     default:
-      subject = 'Contact Page';
-      text = `From: ${form.firstName} (${form.email})\n\n The resume has been attached`;
-      html = `<p>From: ${form.firstName} (${form.email})</p><p>The resume has been attached</p>`;
+      subject = 'Job Inquiry';
+      text = `Hello,\n\nYou have received a new inquiry.\n\nFrom: ${form.firstName} ${form.lastName} (${form.email})\n\nThe resume has been attached.\n\nBest regards,\nYour Team`;
+      html = `
+        <h2>Hello,</h2>
+        <p>You have received a new inquiry.</p>
+        <p><strong>From:</strong> ${form.firstName} ${form.lastName} (<a href="mailto:${form.email}">${form.email}</a>)</p>
+        <p>The resume has been attached.</p>
+        <p>Best regards,<br>Your Team</p>
+      `;
       attachments.push({
         filename: 'resume.pdf',
         path: filePath,

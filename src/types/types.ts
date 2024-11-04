@@ -37,7 +37,8 @@ export type FormDataType = {
   email: string;
   country?: string;
   message: string;
-  phone?: string;
+  phoneNumber?: string;
+  subscribe?: boolean;
   howDidYouFindUs?: string;
   from: "home" | "contact-us-page" | "job-board" | 'contact-home-page';
 };

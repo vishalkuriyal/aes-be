@@ -10,7 +10,6 @@ dotenv.config();
 export const handleGetJobs = async (req: Request, res: Response) => {
   try {
     const jobs = await Job.find();
-    console.log(jobs);
     res.status(200).json(jobs);
   } catch (error) {
     res.status(500).json({ message: 'An unexpected error occurred' });
