@@ -24,7 +24,7 @@ declare module 'express-session' {
 const oauth2Client = new google.auth.OAuth2(
   process.env.CLIENT_ID,
   process.env.CLIENT_SECRET,
-  'http://localhost:3030/oauth2callback'  // Your redirect URL
+  'http://localhost:3030/oauth2callback' // Your redirect URL
 );
 
 // Route to generate the authorization URL
@@ -45,7 +45,7 @@ app.get('/oauth2callback', async (req, res) => {
 
   if (!code) {
     res.status(400).send('Missing authorization code');
-    return
+    return;
   }
 
   try {
@@ -62,8 +62,8 @@ app.get('/oauth2callback', async (req, res) => {
   }
 });
 
-if (process.env.PRODUCTION === "false") {
-  app.set('trust proxy', 1)
+if (process.env.PRODUCTION === 'false') {
+  app.set('trust proxy', 1);
   app.use(
     session({
       secret: process.env.SECRET as string,
@@ -72,10 +72,8 @@ if (process.env.PRODUCTION === "false") {
       store: store,
     })
   );
-
 } else {
-
-  app.set('trust proxy', 1)
+  app.set('trust proxy', 1);
   app.use(
     session({
       secret: process.env.SECRET as string,
@@ -84,26 +82,37 @@ if (process.env.PRODUCTION === "false") {
       store: store,
       cookie: {
         secure: true,
-        sameSite: "none",
+        sameSite: 'none',
         maxAge: 1000 * 60 * 60 * 24 * 7,
-      }
+      },
     })
   );
 }
 
-
-const allowedOrigins = ['aesrecruitment.com', "www.aesrecruitment.com", 'http://localhost:3000', "https://aes-website.vercel.app", "aes-website.vercel.app", "https://aes-website.vercel.app/", "https://aesrecruitment.com", "https://www.aesrecruitment.com", "http://aesrecruitment.com", "http://aesrecruitment.com"];
+const allowedOrigins = [
+  'aesrecruitment.com',
+  'www.aesrecruitment.com',
+  'http://localhost:3000',
+  'https://aes-website.vercel.app',
+  'aes-website.vercel.app',
+  'https://aes-website.vercel.app/',
+  'https://aesrecruitment.com',
+  'https://www.aesrecruitment.com',
+  'http://aesrecruitment.com',
+  'http://aesrecruitment.com',
+];
 app.use(
   cors({
     credentials: true,
-    origin: function(origin, callback) {
+    origin: function (origin, callback) {
       // allow requests with no origin
       // (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) === -1) {
         var msg =
           'The CORS policy for this site does not ' +
-          'allow access from the specified Origin.';
+          'allow access from the specified Origin.' +
+          origin;
         return callback(new Error(msg), false);
       }
       return callback(null, true);
