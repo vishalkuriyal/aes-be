@@ -5,7 +5,7 @@ dotenv.config();
 
 const CLIENT_ID = process.env.CLIENT_ID as string;
 const CLIENT_SECRET = process.env.CLIENT_SECRET as string;
-const REDIRECT_URI = "https://aesrecruitment.com/oauth2callback";
+const REDIRECT_URI = "https://www.aesrecruitment.com/oauth2callback";
 
 const oauth2Client = new google.auth.OAuth2(
   CLIENT_ID,
