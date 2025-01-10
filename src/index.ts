@@ -26,7 +26,7 @@ export let storedTokens: any = null;
 const oauth2Client = new google.auth.OAuth2(
   process.env.CLIENT_ID,
   process.env.CLIENT_SECRET,
-  'https://www.raesrecruitment.com/oauth2callback' // Your redirect URL
+  'https://www.aesrecruitment.com/oauth2callback' // Your redirect URL
 );
 
 // Route to generate the authorization URL
