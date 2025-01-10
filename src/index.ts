@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { router } from './routes';
 import session from 'express-session';
 import { google } from 'googleapis';
@@ -21,6 +21,8 @@ declare module 'express-session' {
   }
 }
 
+export let storedTokens: any = null;
+
 const oauth2Client = new google.auth.OAuth2(
   process.env.CLIENT_ID,
   process.env.CLIENT_SECRET,
@@ -33,7 +35,6 @@ app.get('/auth/google', (req, res) => {
   const authorizeUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: scopes,
-    prompt: 'consent',
   });
 
   res.redirect(authorizeUrl);
@@ -51,6 +52,8 @@ app.get('/oauth2callback', async (req, res) => {
   try {
     // Exchange the authorization code for an access token
     const { tokens } = await oauth2Client.getToken(code);
+
+    storedTokens = tokens;
     oauth2Client.setCredentials(tokens);
 
     res.send('Authorization successful!');
@@ -59,6 +62,35 @@ app.get('/oauth2callback', async (req, res) => {
     res.status(500).send('Error during token exchange');
   }
 });
+
+// Middleware to check if access token is expired and refresh it
+export const ensureAuthenticated = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!storedTokens || !storedTokens.access_token) {
+    res.status(401).send('User not authenticated');
+    return;
+  }
+
+  // If the access token is expired, refresh it
+  if (new Date(storedTokens.expiry_date) < new Date()) {
+    try {
+      // Refresh the token using the stored refresh token
+      const { credentials } = await oauth2Client.refreshAccessToken();
+      storedTokens = credentials;
+
+      // Set the refreshed credentials
+      oauth2Client.setCredentials(storedTokens);
+    } catch (error) {
+      console.error('Error refreshing token:', error);
+      res.status(500).send('Error refreshing token');
+      return;
+    }
+  }
+  next();
+};
 
 if (process.env.PRODUCTION === 'false') {
   app.set('trust proxy', 1);
