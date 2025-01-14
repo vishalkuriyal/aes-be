@@ -59,6 +59,8 @@ export const uploadFileToDrive = async (
 
     const fileId = file.data.id as string;
 
+
+    console.log("craeting client")
     // Make the file publicly accessible
     await drive.permissions.create({
       fileId,
@@ -68,14 +70,18 @@ export const uploadFileToDrive = async (
       },
     });
 
+    console.log('File uploaded successfully!');
     const fileUrl = `https://lh3.googleusercontent.com/d/${fileId}`;
     return fileUrl;
   } catch (error: any) {
+    console.log(error)
     if (error.response && error.response.status === 401) {
       console.log('Access token expired, refreshing...');
       await refreshAccessToken();
       return uploadFileToDrive(filePath, fileName); // Retry after refreshing token
     }
+
+    console.log(error)
     console.error('Error uploading file to Drive:', error);
     throw error;
   }

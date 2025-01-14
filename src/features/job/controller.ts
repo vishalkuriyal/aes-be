@@ -27,6 +27,7 @@ export const handleCreateJobs = async (
       return;
     }
 
+
     // Extract job details from the request body
     const {
       location,
@@ -49,6 +50,9 @@ export const handleCreateJobs = async (
     // Upload the company image to Google Drive
     const filePath = req.file.path; // Path of the uploaded file
     const fileName = req.file.originalname; // Original file name
+
+    console.log("uploading file")
+
     const companyImageUrl = await uploadFileToDrive(filePath, fileName);
 
     // Create a new job entry
@@ -71,6 +75,8 @@ export const handleCreateJobs = async (
       acceptingOpenings,
       content,
     });
+
+    console.log("job created")
 
     // Save the job to MongoDB
     await newJob.save();
