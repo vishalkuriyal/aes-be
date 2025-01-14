@@ -8,7 +8,6 @@ import {
 } from './controller';
 import { isAuth } from '../auth/controller';
 import multer from 'multer';
-import { ensureAuthenticated } from '../../index';
 
 const upload = multer({ dest: 'uploads/' }); // Directory for uploaded files
 
@@ -19,18 +18,12 @@ jobsRouter.get('/get/:id', handleGetSingleJob);
 jobsRouter.post(
   '/create',
   isAuth,
-  (req, res) => {
-    ensureAuthenticated;
-  },
   upload.single('companyImage'),
   handleCreateJobs
 );
 jobsRouter.post(
   '/update/:jobId',
   isAuth,
-  (req, res) => {
-    ensureAuthenticated;
-  },
   upload.single('companyImage'),
   handleJobUpdate
 );
